@@ -5,53 +5,64 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  logo: string;
   description: ReactNode;
+  link: string;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Irodalomerettsegi API',
+    logo: 'https://irodalomerettsegi.hu/favicon.ico',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        REST API az irodalom érettségi tételek, fogalmak és memoriterek kezeléséhez. 
+        Teljes dokumentáció és példakódok.
       </>
     ),
+    link: '/docs/irodalomerettsegi/hello'
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'BNBDEVELOPMENT',
+    logo: 'https://avatars.githubusercontent.com/u/203906907?s=200&v=4', 
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Látogasd meg weboldalunkat és ismerj meg minket közelebbről! Nézd meg projektjeinket
+        és vedd fel velünk a kapcsolatot.
       </>
     ),
+    link: 'https://bnbdevelopment.hu'
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'GitHub',
+    logo: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Keresd fel GitHub profilunkat! Itt megtalálod nyílt forráskódú projektjeinket
+        és közreműködhetsz fejlesztésükben.
       </>
     ),
+    link: 'https://github.com/bnbdevelopment'
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, logo, description, link}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
-      </div>
+      <a href={link} className={styles.featureLink}>
+        <div className="text--center">
+          <img 
+            src={logo} 
+            className={styles.featureLogo} 
+            alt={title}
+            style={{width: '50px', height: '50px', objectFit: 'contain'}} 
+          />
+        </div>
+        <div className="text--center padding-horiz--md">
+          <Heading as="h3">{title}</Heading>
+          <p>{description}</p>
+        </div>
+      </a>
     </div>
   );
 }

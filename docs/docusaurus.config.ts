@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'BNBDEVELOPMENT Documentation Site',
-  tagline: 'Documentation for all APIs and SDKs developed by us.',
+  title: 'BNBDEVELOPMENT Dokumentáció',
+  tagline: 'BNBDEVELOPMENT által fejlesztett összes API és SDK dokumentációja.',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -73,25 +73,25 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'BNBDEVELOPMENT Documentation Site',
+      title: 'Dokumentáció',
       logo: {
         alt: 'BNBDEVELOPMENT Logo',
-        src: 'img/logo.svg',
+        src: 'https://avatars.githubusercontent.com/u/203906907?s=200&v=4',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Tutorial',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'tutorialSidebar',
+        //   position: 'left',
+        //   label: 'Tutorial',
+        // },
         {
           type: 'docSidebar',
           sidebarId: 'irodalomerettsegiSidebar',
           position: 'left',
           label: 'Irodalomerettsegi API',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        // {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/bnbdevelopment',
           label: 'GitHub',
@@ -103,36 +103,36 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Dokumentáció',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Irodalomerettsegi API Dokumentáció',
+              to: '/docs/irodalomerettsegi/hello',
             },
           ],
         },
+        // {
+        //   title: 'Community',
+        //   items: [
+        //     {
+        //       label: 'Stack Overflow',
+        //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+        //     },
+        //     {
+        //       label: 'Discord',
+        //       href: 'https://discordapp.com/invite/docusaurus',
+        //     },
+        //     {
+        //       label: 'X',
+        //       href: 'https://x.com/docusaurus',
+        //     },
+        //   ],
+        // },
         {
-          title: 'Community',
+          title: 'Rólunk',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'About us',
-          items: [
-            {
-              label: 'Website',
+              label: 'Weboldal',
               href: 'https://bnbdevelopment.hu',
             },
             {
