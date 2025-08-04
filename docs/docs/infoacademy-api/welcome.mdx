@@ -1,0 +1,43 @@
+---
+sidebar_position: 1
+sidebar_label: 'Welcome'
+title: 'Welcome!'
+---
+import { useState, useEffect } from 'react';
+
+export const VersionDisplay = () => {
+  const [version, setVersion] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchVersion = async () => {
+      try {
+        const response = await fetch('https://api.infoacademy.hu/version');
+        const data = await response.json();
+        setVersion(data.version);
+      } catch (err) {
+        setError('Failed to fetch version');
+        console.error('Error fetching version:', err);
+      }
+    };
+
+    fetchVersion();
+  }, []);
+
+  return (
+    <div>
+      <p> Welcome to the official documentation of the API of <a href="https://infoacademy.hu">InfoAcademy</a>.</p>
+      <h2>Current API Status</h2>
+      <p>Current version of the API: {version ?? "Unknown"}</p>
+      <p>Current status of the API: {version ?? "Unknown"}</p>
+      <h2>Contact</h2>
+      <footer>
+        <p>
+          If you have any questions, please contact us at <a href="mailto:contact@bnbdevelopment.hu">contact@bnbdevelopment.hu</a>
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+<VersionDisplay />

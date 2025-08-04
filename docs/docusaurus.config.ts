@@ -35,6 +35,11 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -72,6 +77,11 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
+    
+    mermaid: {
+      theme: {light: 'neutral', dark: 'dark'},
+    },
+    
     navbar: {
       title: 'Dokumentáció',
       logo: {
@@ -89,7 +99,13 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'irodalomerettsegiSidebar',
           position: 'left',
-          label: 'Irodalomerettsegi API',
+          label: 'IrodalomErettsegi API',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'infoAcademySidebar',
+          position: 'left',
+          label: 'InfoAcademy API',
         },
         // {to: '/blog', label: 'Blog', position: 'left'},
         {
