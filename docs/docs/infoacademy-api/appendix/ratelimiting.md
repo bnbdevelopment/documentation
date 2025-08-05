@@ -10,6 +10,7 @@ sidebar_label: Subscription Tiers
 | Enroll into premium courses | ❌ | Demo | ✅ | ✅ | ✅ |
 | Request specific randomized exercises | ❌ | ❌ | ✅ | ✅ | ✅ |
 | Unlimited code executions | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Priority queue | ❌ | ❌ | ✅ | ✅ | ✅ |
 | Create / Manage courses | ❌ | ❌ | ❌ | ✅ | ✅ |
 | Create / Manage code exercises | ❌ | ❌ | ❌ | ✅ | ✅ |
 | Create / Manage exams | ❌ | ❌ | ❌ | ✅ | ✅ |

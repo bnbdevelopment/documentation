@@ -1,0 +1,8 @@
+{
+  "label": "Teacher's Documentation",
+  "position": 7,
+  "link": {
+    "type": "doc",
+    "id": "infoacademy-api/teacher/index"
+  }
+} 

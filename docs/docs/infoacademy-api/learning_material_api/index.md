@@ -1,6 +1,6 @@
 ---
-title: Course API
-sidebar_label: Course API
+title: Learning Material API
+sidebar_label: Learning Material API
 ---
 
 ## Basic Structure of learning materials
