@@ -71,6 +71,7 @@ Enum, can have the following values:
 The structure of the task varies based on its type. Some examples:
 ```typescript title="VIDEO"
 {
+  id: string,
   name: string,
   description: string?, // Optional: markdown formatted description of the task
   url: string, // URL to the video
@@ -79,6 +80,7 @@ The structure of the task varies based on its type. Some examples:
 
 ```typescript title="DOCUMENT"
 {
+  id: string,
   name: string,
   description: string?, // Optional: markdown formatted description of the task
   content: string, // Markdown formatted contents
@@ -87,6 +89,7 @@ The structure of the task varies based on its type. Some examples:
 
 ```typescript title="MULTIP_EXERCISE"
 {
+  id: string,
   name: string,
   description: string?, // Optional: markdown formatted description of the task
   content: string[], // Available choices
@@ -95,6 +98,7 @@ The structure of the task varies based on its type. Some examples:
 
 ```typescript title="CODE_TASK"
 {
+  id: string,
   name: string,
   description: string?, // Optional: markdown formatted description of the task
   content: {
@@ -109,6 +113,7 @@ Please check out the [documentation](../code_tasks) regarding code tasks to unde
 
 ```typescript title="TEST"
 {
+  id: string,
   name: string,
   description: string?, // Optional: markdown formatted description of the task
   content: Task[], // A list of task exercises.

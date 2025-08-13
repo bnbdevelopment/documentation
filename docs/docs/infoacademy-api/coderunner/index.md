@@ -2,7 +2,7 @@
 title: BNB CodeRunner
 sidebar_label: CodeRunner
 ---
-BNB CodeRunner is an open-source container orchestration architecture. It is responsbile for creating, managing and deleting user runtimes, enabling code execution in web environments.
+[BNB CodeRunner](https://github.com/bnbdevelopment/bnbrunner) is an open-source container orchestration architecture. It is responsbile for creating, managing and deleting user runtimes, enabling code execution in web environments.
 
 ## Architecture
 - **Orchestrator**: an application written in Go, responsible for creating, managing, terminating code running environments. It deploys a custom Python image embedded with the IPython Kernel.

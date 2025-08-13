@@ -86,7 +86,7 @@ const config: Config = {
       title: 'Dokumentáció',
       logo: {
         alt: 'BNBDEVELOPMENT Logo',
-        src: 'https://avatars.githubusercontent.com/u/203906907?s=200&v=4',
+        src: 'img/bnb-1x.png',
       },
       items: [
         // {
@@ -106,6 +106,18 @@ const config: Config = {
           sidebarId: 'infoAcademySidebar',
           position: 'left',
           label: 'InfoAcademy API',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'simpleMailerSidebar',
+          position: 'left',
+          label: 'SimpleMailer',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'bnbInfraSidebar',
+          position: 'left',
+          label: 'Infrastructure',
         },
         // {to: '/blog', label: 'Blog', position: 'left'},
         {

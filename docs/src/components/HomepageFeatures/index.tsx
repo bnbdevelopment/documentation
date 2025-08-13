@@ -24,7 +24,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'BNBDEVELOPMENT',
-    logo: 'https://avatars.githubusercontent.com/u/203906907?s=200&v=4', 
+    logo: 'img/bnb-1x.png', 
     description: (
       <>
         Látogasd meg weboldalunkat és ismerj meg minket közelebbről! Nézd meg projektjeinket
