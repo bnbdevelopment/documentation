@@ -6,41 +6,115 @@ on:
       - main
     paths:
       - docs/**
+  workflow_dispatch:
+
 jobs:
-  build-push-gcr:
-    name: Build and Push to GCP
+  # unit-test:
+  #   name: Unit test
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 24
+  #         cache: 'npm'
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Run ESLint
+  #       run: npx eslint . --ext .ts
+
+      # - name: Run Tests
+      #   run: npm test -- --coverage
+
+      # - name: Upload coverage report
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage-report
+      #     path: coverage/
+
+  # static-analysis:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: SonarQube Scan
+  #       uses: sonarsource/sonarqube-scan-action@v2
+  #       with:
+  #         args: >
+  #           -Dsonar.projectKey=my-typescript-app
+  #           -Dsonar.sources=.
+  #           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+  #           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+  security-scans:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: docs
-      PROJECT_ID: ${{ vars.PROJECT_ID }}
-      REPOSITORY: ${{ vars.REPOSITORY }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - id: auth
-      name: Authenticate with Google Cloud
-      uses: google-github-actions/auth@v1
-      with:
-        token_format: access_token
-        credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-        access_token_lifetime: 300s
+      - name: Scan dependencies with Trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          ignore-unfixed: true
+          format: table
+          exit-code: 1
+          severity: HIGH,CRITICAL
+          path: .
 
-    - name: Login to Artifact Registry
-      uses: docker/login-action@v1
-      with:
-        registry: europe-west3-docker.pkg.dev
-        username: oauth2accesstoken
-        password: ${{ steps.auth.outputs.access_token }}
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --source . --no-git --verbose --redact
 
-    - name: Build Docker Image
-      run: docker build -t $IMAGE_NAME:latest ./docs
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/owasp-top-ten
+            p/javascript
+            p/typescript
 
-    - name: Push Docker Image to Artifact Registry
-      env:
-        GIT_TAG: ${{ github.run_number }}
-      run: |-
-        docker tag $IMAGE_NAME:latest europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:latest
-        docker tag $IMAGE_NAME:latest europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:2.20.1$GIT_TAG
-        docker push europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:latest
-        docker push europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:2.20.1$GIT_TAG
+  # build-push-gcr:
+  #   name: Build and Push to GCP
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     IMAGE_NAME: docs
+  #     PROJECT_ID: ${{ vars.PROJECT_ID }}
+  #     REPOSITORY: ${{ vars.REPOSITORY }}
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+
+  #   - id: auth
+  #     name: Authenticate with Google Cloud
+  #     uses: google-github-actions/auth@v1
+  #     with:
+  #       token_format: access_token
+  #       credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+  #       access_token_lifetime: 300s
+
+  #   - name: Login to Artifact Registry
+  #     uses: docker/login-action@v1
+  #     with:
+  #       registry: europe-west3-docker.pkg.dev
+  #       username: oauth2accesstoken
+  #       password: ${{ steps.auth.outputs.access_token }}
+
+  #   - name: Build Docker Image
+  #     run: docker build -t $IMAGE_NAME:latest ./docs
+
+  #   - name: Push Docker Image to Artifact Registry
+  #     env:
+  #       GIT_TAG: ${{ github.run_number }}
+  #     run: |-
+  #       docker tag $IMAGE_NAME:latest europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:latest
+  #       docker tag $IMAGE_NAME:latest europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:2.20.1$GIT_TAG
+  #       docker push europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:latest
+  #       docker push europe-west3-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:2.20.1$GIT_TAG

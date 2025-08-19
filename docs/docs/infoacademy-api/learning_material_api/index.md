@@ -50,10 +50,3 @@ X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1642680000
 ```
-
-
-## Next Steps
-- [Authentication Guide](./authentication.md)
-- [API Reference](./api-reference.md)
-- [SDK Documentation](./sdk-docs.md)
-- [Error Codes](./error-codes.md)
