@@ -1,0 +1,18 @@
+title = "BNB Documentation Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[[allowlist]]
+description = "Ignore placeholder API keys in docs/examples"
+regexes = [
+  '''Bearer YOUR_API_KEY''',
+  '''<API_KEY>''',
+  '''<TOKEN>'''
+]
+
+# Optionally ignore docs or readme files entirely
+# paths = [
+#   '''README.md''',
+#   '''docs/.*'''
+# ]
