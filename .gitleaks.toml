@@ -1,9 +1,10 @@
 title = "BNB Documentation Gitleaks Config"
 
+
 [extend]
 useDefault = true
 
-[[allowlist]]
+[allowlist]
 description = "Ignore placeholder API keys in docs/examples"
 regexes = [
   '''Bearer YOUR_API_KEY''',
