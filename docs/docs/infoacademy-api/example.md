@@ -320,10 +320,3 @@ def create_course(course_data):
                            headers=headers)
     return response.json()
 ```
-
-## Next Steps
-
-- [Authentication Guide](./authentication.md)
-- [API Reference](./api-reference.md)
-- [SDK Documentation](./sdk-docs.md)
-- [Error Codes](./error-codes.md)
