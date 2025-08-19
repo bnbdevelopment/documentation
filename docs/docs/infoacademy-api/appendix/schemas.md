@@ -108,7 +108,7 @@ The structure of the task varies based on its type. Some examples:
 }
 ```
 :::note Code tasks
-Please check out the [documentation](../code_tasks) regarding code tasks to understand the response parameters better.
+Please check out the [documentation](../task-api) regarding code tasks to understand the response parameters better.
 :::
 
 ```typescript title="TEST"
