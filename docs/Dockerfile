@@ -1,33 +1,17 @@
-FROM node:18-alpine AS base
+# Stage 1: Base image.
+FROM node:lts AS base
+ENV FORCE_COLOR=0
+RUN corepack enable
+WORKDIR /opt/docusaurus
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm ci --only=production && npm cache clean --force
-
-FROM base AS development
-
+# Stage 2: Production image.
+FROM base AS prod
+WORKDIR /opt/docusaurus
+COPY . /opt/docusaurus/
 RUN npm ci
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
-
-FROM base AS build
-
-RUN npm ci
-
-COPY . .
-
 RUN npm run build
 
-FROM nginx:alpine AS production
-
-COPY --from=build /app/build /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Stage 3: Serve with `docusaurus serve`.
+FROM prod AS serve
+EXPOSE 3000
+CMD ["npm", "run", "serve", "--", "--host", "0.0.0.0", "--no-open"]
