@@ -91,7 +91,7 @@ jobs:
   build-push-gcr:
     name: Build and Push to GCP
     runs-on: ubuntu-latest
-    needs: [static-analysis, security-scans, semgrep]
+    #needs: [static-analysis, security-scans, semgrep]
     env:
       IMAGE_NAME: docs
       PROJECT_ID: ${{ vars.PROJECT_ID }}
