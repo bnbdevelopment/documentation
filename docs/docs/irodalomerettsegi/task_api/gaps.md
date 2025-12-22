@@ -71,3 +71,9 @@ A válasz pedig tartalmazza a helyes sorrendet és elért eredményt.
     "mask": []
 }
 ```
+
+:::note
+
+A bemenet ellenőrzése megváltozott, több apró hibát megenged. Ezek közé tartozik a betűméret különbségek, 1 karakter elírások, hiányos ékezetek.
+
+:::
