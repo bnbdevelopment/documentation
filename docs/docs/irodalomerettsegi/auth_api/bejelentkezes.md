@@ -27,4 +27,23 @@ A felhasználónév minimum 3, maximum 64; a jelszó minimum 8 maximum 32 karakt
 **FONTOS**, hogy a 'username' a requestben a regisztráláskor felhasznált email címmel kell, hogy megegyezzen. Az akkori felhasználónevet megjelenítésen kívül nem használjuk authentikációhoz.
 
 ### Response
-If authentication was successful then token, otherwise 401 
+Sikeres bejelentkezés esetén:
+```json
+{
+    "accessToken": string,    // JWT token, 1 óráig érvényes
+    "refreshToken": string    // Refresh token, 30 napig érvényes
+}
+```
+
+Sikertelen bejelentkezés esetén: **401 Unauthorized**
+
+## Token használat
+
+Az **access token** (JWT) használata:
+```
+Authorization: Bearer {accessToken}
+```
+
+Az access token 1 óra után lejár. Amikor lejár, használd a **refresh token**-t új access token beszerzéséhez újbóli bejelentkezés nélkül.
+
+Részletek: [Token frissítés](/docs/irodalomerettsegi/auth_api/token-frissites)

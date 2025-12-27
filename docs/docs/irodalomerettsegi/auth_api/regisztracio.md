@@ -18,7 +18,15 @@ sidebar_label: 'Regisztráció'
 ```
 
 ### Response
-Token if registration is successful, otherwise null
+Sikeres regisztráció esetén:
+```json
+{
+    "accessToken": string,    // JWT token, 1 óráig érvényes
+    "refreshToken": string    // Refresh token, 30 napig érvényes
+}
+```
+
+Sikertelen regisztráció esetén: **400 Bad Request** (pl. email cím már foglalt)
 
 ## Email megerősítés
 
