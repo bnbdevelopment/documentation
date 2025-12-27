@@ -9,6 +9,7 @@ sidebar_label: 'Felhasználó séma'
 {
   "username": string,
   "email": string,
+  "emailVerified": boolean,
   "salt": string,
   "hash": string,
   "exams": string[],
@@ -34,4 +35,8 @@ sidebar_label: 'Felhasználó séma'
       "endDate": Date,
     }
 }
-``` 
+```
+
+## Mezők leírása
+
+- `emailVerified`: Boolean mező, amely jelzi, hogy a felhasználó megerősítette-e az email címét. Regisztrációkor automatikusan `false`, az email megerősítése után `true`-ra vált. Részletek: [Email megerősítés](/irodalomerettsegi/auth_api/email-megerosites) 
