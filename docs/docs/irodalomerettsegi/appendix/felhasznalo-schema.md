@@ -39,4 +39,4 @@ sidebar_label: 'Felhasználó séma'
 
 ## Mezők leírása
 
-- `emailVerified`: Boolean mező, amely jelzi, hogy a felhasználó megerősítette-e az email címét. Regisztrációkor automatikusan `false`, az email megerősítése után `true`-ra vált. Részletek: [Email megerősítés](/irodalomerettsegi/auth_api/email-megerosites) 
+- `emailVerified`: Boolean mező, amely jelzi, hogy a felhasználó megerősítette-e az email címét. Regisztrációkor automatikusan `false`, az email megerősítése után `true`-ra vált. Részletek: [Email megerősítés](/docs/irodalomerettsegi/auth_api/email-megerosites) 

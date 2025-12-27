@@ -26,4 +26,4 @@ A sikeres regisztráció után a felhasználó automatikusan kap egy megerősít
 
 A felhasználó a JWT token segítségével be tud jelentkezni email megerősítés nélkül is, de ajánlott az email cím megerősítése a teljes funkcionalitás eléréséhez.
 
-További részletek: [Email megerősítés](/irodalomerettsegi/auth_api/email-megerosites)
+További részletek: [Email megerősítés](/docs/irodalomerettsegi/auth_api/email-megerosites)
