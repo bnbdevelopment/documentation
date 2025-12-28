@@ -119,6 +119,12 @@ const config: Config = {
           position: 'left',
           label: 'Infrastructure',
         },
+        {
+          type: 'docSidebar',
+          sidebarId: 'bnbBillingSidebar',
+          position: 'left',
+          label: 'BNB Billing System',
+        },
         // {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/bnbdevelopment',

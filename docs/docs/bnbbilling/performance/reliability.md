@@ -1,0 +1,20 @@
+---
+title: Reliability
+sidebar_label: Reliability
+---
+
+# Reliability
+Some of the core ideas we keep in mind while developing, to ensure the best and safest experience for our users.
+
+## Idempotency everywhere
+Idempotency is a property in computer science where applying an operation multiple times yields the same result as applying it once.
+We ensure and test thoroughly that every element of the system returns the same answer under any conditions.
+
+## Event-driven confirmation
+Both payments and transactions are only successful after the necessary service acknowledges it through webhooks or internal communications.
+
+## Message broker
+We use Apache Kafka and RabbitMQ to ensure optimal scalability for our applications, as well as quick response times for the users. 
+
+## Outbox pattern
+We write domain events into DB, while background worker publishes them. This guarantees no lost events.
