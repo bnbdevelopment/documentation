@@ -530,10 +530,6 @@ For detailed security architecture information, see [Security](../performance/se
 - Attempts 6-10: 1 hour apart
 - After 10 failures: Alert sent to support
 
-:::tip Scalability Details
-For detailed scalability information, see [Scalability](../performance/scalability).
-:::
-
 ## Compliance Architecture
 
 ### GDPR Requirements

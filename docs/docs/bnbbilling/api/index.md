@@ -126,8 +126,6 @@ Content-Type: application/json
 - Duplicate request (same key): Returns cached response, returns 200 OK
 - Same key, different payload: Returns 409 Conflict
 
-**See**: [Idempotency Documentation](../implementation/phase-4-idempotency)
-
 ## Rate Limiting
 
 Rate limiting is applied per tenant:
