@@ -47,3 +47,57 @@ sequenceDiagram
     
 
 ```
+
+## Data Flow
+
+### Payment Creation Flow
+
+```mermaid
+sequenceDiagram
+    participant App as Your Application
+    participant API as Billing API
+    participant DB as PostgreSQL
+    participant Cache as Redis
+    participant Audit as ClickHouse
+    participant Provider as Payment Provider
+
+    App->>API: POST /payments (Idempotency-Key)
+    API->>Cache: Acquire distributed lock
+    Cache-->>API: Lock acquired
+    API->>DB: Check for existing payment
+    API->>DB: Create PaymentIntent
+    API->>Audit: Log payment creation
+    API->>Provider: Initialize payment
+    Provider-->>API: Checkout URL
+    API->>DB: Update with provider reference
+    API->>Cache: Release lock
+    API-->>App: Return checkout URL
+```
+
+### Webhook Processing Flow
+
+```mermaid
+sequenceDiagram
+    participant Provider as Payment Provider
+    participant API as Billing API
+    participant DB as PostgreSQL
+    participant Audit as ClickHouse
+    participant Queue as RabbitMQ
+    participant App as Your Application
+
+    Provider->>API: POST /webhooks/provider (signature)
+    API->>API: Verify signature
+    API->>DB: Check idempotency (event ID)
+    API->>DB: Update payment status
+    API->>DB: Store webhook payload
+    API->>Audit: Log state transition
+    API->>DB: Write event to outbox
+    API-->>Provider: 200 OK
+
+    Note over Queue: Background Worker
+    Queue->>DB: Poll outbox table
+    DB-->>Queue: Pending events
+    Queue->>App: POST /webhooks/billing
+    App-->>Queue: 200 OK
+    Queue->>DB: Mark event as delivered
+```

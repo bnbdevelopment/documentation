@@ -1,58 +1,111 @@
 ---
 sidebar_position: 2
-sidebar_label: 'Components'
+sidebar_label: 'System Components'
 ---
-# Components
-SimpleMailer consists of two application:
-- **Dashboard**: an optional website to view information about the system, jobs and queues. 
-- **Worker**: nodes listening to the queue events and executing the jobs.
 
-## Architecture
+# System Components
+
+BNB Billing System is built on a robust, enterprise-grade architecture designed for financial reliability and regulatory compliance.
+
+## System Overview
+
 ```mermaid
-graph TD
-  subgraph Frontend["Admin Dashboard - Next.js"]
-    A1["User Interface"]
-    A2["API Routes / Server Actions"]
-  end
+graph TB
+    subgraph "Client Application"
+        A1[Product Backend]
+        A2[Product Frontend]
+    end
 
-  subgraph Services
-    B1["PostgreSQL"]
-    B2["S3 - MJML Templates"]
-    B3["RabbitMQ"]
-    B4["Metrics - Prometheus"]
-  end
+    subgraph "BNB Billing System"
+        B1[Billing API<br/>NestJS Backend]
+        B2[Checkout UI<br/>NextJS Frontend]
+    end
 
-  subgraph Workers["NestJS Mailer Workers (Kubernetes Pods)"]
-    C1["Worker Pod 1"]
-    C2["Worker Pod N"]
-  end
+    subgraph "Data Layer - Primary"
+        C1[(PostgreSQL<br/>Single Source of Truth)]
+        C2[(Redis<br/>Distributed Locks)]
+    end
 
-  subgraph Cloud["Email Provider (SMTP / SES / SendGrid)"]
-    D1["Email Service"]
-  end
+    subgraph "Data Layer - Analytics"
+        D1[(ClickHouse<br/>Audit Logs)]
+        D2[S3 Storage<br/>Long-term Archives]
+    end
 
-  A1 --> A2
-  A2 -->|Enqueue Job| B3
-  A2 -->|Store Metadata| B1
-  A2 -->|Upload Template| B2
-  A2 -->|Read Metrics| B4
+    subgraph "Message Broker"
+        E1[RabbitMQ<br/>Event Delivery]
+    end
 
-  B3 --> C1
-  B3 --> C2
+    subgraph "Payment Providers"
+        F1[SimplePay]
+        F2[Other Provider implemented in future]
+    end
 
-  C1 -->|Fetch Template| B2
-  C2 -->|Fetch Template| B2
+    A1 -->|Create Payment| B1
+    A2 -->|Checkout| B2
+    B2 -->|Load Intent| B1
 
-  C1 -->|Send Email| D1
-  C2 -->|Send Email| D1
+    B1 -->|Store Transaction| C1
+    B1 -->|Acquire Lock| C2
+    B1 -->|Audit Log| D1
+    B1 -->|Publish Event| E1
+    B1 -->|Process Payment| F1
 
-  C1 -->|Log Result| B1
-  C2 -->|Log Result| B1
+    E1 -->|Webhook to Product| A1
 
-  C1 -->|Expose Metrics| B4
-  C2 -->|Expose Metrics| B4
+    F1 -->|Payment Webhook| B1
+
+    D1 -->|Archive| D2
+
+    style C1 fill:#4CAF50
+    style B1 fill:#2196F3
+    style D1 fill:#FF9800
 ```
-## External services
-- **PostgreSQL Database**: the main database where all logs, accounts and templates are stored.
-- **RabbitMQ Queue**: the main queue which ensures that all mail jobs are executed successfully.
-- **S3 Bucket** *(optional)*: can store all the templates in an S3 compatible bucket. Not neccessary, but highly recommended.
+
+## Core Components
+
+The BNB Billing System consists of several key components working together:
+
+- **Billing API** (NestJS Backend): The central nervous system that processes payments, manages authentication, and handles provider integrations
+- **Checkout UI** (NextJS Frontend): Secure, PCI-compliant checkout experience for end users
+- **PostgreSQL**: Primary database containing all financial records (single source of truth)
+- **Redis**: Distributed coordination for locks, caching, and rate limiting
+- **ClickHouse**: Immutable audit logs for compliance and analytics
+- **RabbitMQ**: Guaranteed event delivery to tenant applications
+- **S3 Storage**: Long-term archives for compliance documentation
+
+:::tip Detailed Information
+For comprehensive details about each component, see:
+- [Architecture Overview](./core/architecture) - Complete system architecture and component details
+- [Traffic Flow](./core/traffic) - How data flows through the system
+:::
+
+## Data Flow
+
+The system handles two main data flows:
+
+1. **Payment Creation**: From your application through the Billing API to payment providers
+2. **Webhook Processing**: From payment providers back to your application via RabbitMQ
+
+:::tip Detailed Flows
+See [Traffic Flow](./core/traffic) for detailed sequence diagrams of payment creation and webhook processing.
+:::
+
+## Related Documentation
+
+For detailed information about specific aspects of the system:
+
+### Core Architecture
+- [Architecture Overview](./core/architecture) - Complete system architecture, components, and data storage
+- [Traffic Flow](./core/traffic) - Payment flows and webhook processing
+
+### Performance & Reliability
+- [Security](./performance/security) - Security architecture and defense in depth
+- [Reliability](./performance/reliability) - Reliability guarantees and disaster recovery
+- [Auditing](./performance/auditing) - Audit logging and compliance
+- [Monitoring](./performance) - Monitoring, observability, and alerting
+
+---
+
+:::tip Contact
+If you have any questions regarding the system and your personal data, please feel free to contact us at contact@bnbdevelopment.hu.
+:::

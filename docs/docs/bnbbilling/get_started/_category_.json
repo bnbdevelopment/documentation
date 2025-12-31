@@ -1,6 +1,6 @@
 {
-  "label": "Get Started",
-  "position": 3,
+  "label": "Developer Notes",
+  "position": 10,
   "link": {
     "type": "doc",
     "id": "simplemailer/get_started/index"

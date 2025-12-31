@@ -18,4 +18,27 @@ Our webhooks use provider signature verification, restricting the domains and si
 ## PCI scope minimization
 We never touch or store raw customer data. All of the transaction details are handled through our payment providers.
 
+## Security Architecture
+
+### Defense in Depth
+
+**Layer 1: Network**
+- DDoS protection (Cloudflare)
+- WAF (Web Application Firewall)
+- IP allowlisting for webhooks
+
+**Layer 2: Application**
+- Rate limiting (100 req/min per tenant)
+- JWT authentication (24h expiration)
+- Request validation (class-validator)
+
+**Layer 3: Data**
+- Encryption at rest (AES-256)
+- Encryption in transit (TLS 1.3)
+- Database-level access controls
+
+**Layer 4: Audit**
+- All actions logged to ClickHouse
+- Tamper-evident audit trail
+- Regular security audits
 
