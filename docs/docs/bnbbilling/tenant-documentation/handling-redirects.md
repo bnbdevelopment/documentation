@@ -4,81 +4,107 @@ sidebar_position: 4
 
 # Handling Redirects
 
-This page covers the frontend checkout flow, including redirecting users to the payment provider and handling their return.
+This page covers the frontend checkout flow, including redirecting users to the billing platform's payment page.
 
-## Payment Provider Checkout Flow
+## Hosted Payment Page Flow
 
-After creating a payment intent, you must redirect users to the payment provider's checkout page. The platform generates a provider-specific checkout URL when the payment intent is initialized.
+After creating a payment intent, redirect your users to the billing platform's hosted payment page using the checkout token. The platform handles all provider communication and checkout UI.
 
-### Checkout URL Generation
+### Checkout URL Structure
 
-The `checkoutUrl` field becomes available after the payment intent transitions to `PROVIDER_PENDING` status. This occurs automatically when the platform registers the payment with the configured provider.
+When you create a payment, the response includes a `checkoutToken`. Use this token to construct the checkout URL:
 
-**Typical Flow**:
-1. Create payment intent via API (status: `CREATED`)
-2. Platform initializes payment with provider (status: `PROVIDER_PENDING`, `checkoutUrl` generated)
-3. Poll the payment intent or wait a brief moment for initialization
-4. Redirect user to `checkoutUrl`
+```
+https://billing.yourdomain.com/payment/{paymentId}?token={checkoutToken}
+```
 
-### Obtaining the Checkout URL
+**Flow**:
+1. Backend creates payment intent and receives `checkoutToken`
+2. Backend returns checkout URL to frontend
+3. Frontend redirects user to billing platform's payment page
+4. User reviews payment details and confirms
+5. Platform initializes payment with provider
+6. User completes payment on provider's secure page
+7. User is redirected back to your application
 
-After creating the payment, retrieve it to check for the checkout URL:
+### Redirecting Users to Checkout
+
+After creating the payment, redirect your users to the hosted payment page:
 
 ```javascript
-async function initiateCheckout(paymentService, userId, amount, currency) {
-  // Create payment intent
-  const payment = await paymentService.createPayment(
-    userId,
-    amount,
-    currency,
-    { orderId: 'order-123' }
-  );
+// Backend: Create payment and return checkout URL
+app.post('/api/checkout', authenticateUser, async (req, res) => {
+  const { amount, currency, metadata } = req.body;
+  const userId = req.user.id;
 
-  // Wait briefly for provider initialization (typically < 1 second)
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  try {
+    // Create payment intent
+    const payment = await paymentService.createPayment(
+      userId,
+      amount,
+      currency,
+      metadata
+    );
 
-  // Retrieve updated payment with checkout URL
-  const updatedPayment = await paymentService.getPayment(payment.id);
+    // Build checkout URL with token
+    const checkoutUrl = `${process.env.BILLING_UI_URL}/payment/${payment.id}?token=${payment.checkoutToken}`;
 
-  if (!updatedPayment.checkoutUrl) {
-    throw new Error('Checkout URL not yet available');
+    res.json({
+      checkoutUrl,
+      paymentId: payment.id,
+      expiresAt: payment.expiresAt
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create payment' });
   }
+});
 
-  return updatedPayment.checkoutUrl;
+// Frontend: Redirect user to checkout
+async function initiateCheckout(amount, currency, metadata) {
+  const response = await fetch('/api/checkout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${userToken}`
+    },
+    body: JSON.stringify({ amount, currency, metadata })
+  });
+
+  const data = await response.json();
+
+  // Redirect user to hosted payment page
+  window.location.href = data.checkoutUrl;
 }
 ```
 
-### Redirecting the User
+### Hosted Payment Page Features
 
-Once you have the checkout URL, redirect the user to complete payment:
+The billing platform's hosted payment page provides:
 
-```javascript
-// Frontend redirect
-window.location.href = checkoutUrl;
-```
-
-The user will be directed to the payment provider's secure checkout page, where they enter payment details and complete the transaction.
+- Professional payment UI with your branding
+- Payment detail review and confirmation
+- Provider selection (if multiple providers configured)
+- Automatic provider initialization
+- Secure redirect to payment provider
+- Built-in error handling and retry logic
+- Mobile-responsive design
 
 ## Return URLs
 
-When configuring your tenant account, you provide return URLs for different payment outcomes. Users are redirected to these URLs after completing or abandoning the payment.
+The billing platform handles payment provider redirects and displays the payment outcome to users. After viewing the result, users can return to your application via a configured return URL.
 
-### Return URL Structure
+### Configuring Return URL
 
-Configure the following return URLs with your tenant account:
+When registering your tenant, provide a return URL where users should be redirected after viewing their payment status:
 
-- **Success URL**: Where users are sent after successful payment
-- **Cancel URL**: Where users are sent if they abandon the payment
-- **Error URL**: Where users are sent if an error occurs
-
-**Example return URLs**:
+**Example return URL**:
 ```
-https://your-app.com/checkout/success?paymentId={PAYMENT_ID}
-https://your-app.com/checkout/cancel?paymentId={PAYMENT_ID}
-https://your-app.com/checkout/error?paymentId={PAYMENT_ID}
+https://your-app.com/checkout/complete?paymentId={PAYMENT_ID}&status={STATUS}
 ```
 
-The platform automatically replaces `{PAYMENT_ID}` with the actual payment intent ID.
+The platform automatically replaces:
+- `{PAYMENT_ID}` with the actual payment intent ID
+- `{STATUS}` with the final payment status (succeeded, failed, cancelled, expired)
 
 ## Handling User Return
 

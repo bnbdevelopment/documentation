@@ -53,7 +53,6 @@ Content-Type: application/json
   "status": "CREATED",
   "provider": "simplepay",
   "providerReference": null,
-  "checkoutUrl": null,
   "metadata": {
     "orderId": "order-456",
     "productName": "Premium Subscription",
@@ -61,7 +60,8 @@ Content-Type: application/json
   },
   "createdAt": "2025-01-03T10:00:00.000Z",
   "updatedAt": "2025-01-03T10:00:00.000Z",
-  "expiresAt": "2025-01-03T10:15:00.000Z"
+  "expiresAt": "2025-01-03T10:15:00.000Z",
+  "checkoutToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
@@ -97,13 +97,53 @@ const idempotencyKey = `payment_${userId}_${orderId}_${timestamp}`;
 
 If the same idempotency key is used with a different request body, the platform returns a `409 Conflict` error.
 
+## Checkout Token
+
+The payment creation response includes a `checkoutToken` field. This is a short-lived JWT token that authorizes end users to access and complete the specific payment without requiring tenant-level credentials.
+
+### Token Characteristics
+
+- **Payment-Scoped**: Token only works for the specific payment it was issued for
+- **Short-Lived**: Valid for 15 minutes from issuance
+- **One-Time Response**: Only returned when creating a payment, not on subsequent retrievals
+- **Secure**: Contains only non-sensitive identifiers (payment ID, tenant ID)
+
+### Usage
+
+Use the checkout token to redirect your users to the billing platform's hosted payment page:
+
+```
+https://billing.yourdomain.com/payment/{paymentId}?token={checkoutToken}
+```
+
+This allows your users to view payment details and complete checkout without exposing your tenant credentials to the frontend. The checkout token authorizes only:
+
+- Viewing the specific payment (`GET /payments/:id`)
+- Initializing the payment with a provider (`POST /payments/:id/initialize`)
+
+Once the payment reaches a terminal state (SUCCEEDED, FAILED, EXPIRED, etc.), the checkout token becomes invalid to prevent unauthorized access to completed payments.
+
+### Security Considerations
+
+- Checkout tokens should be treated as sensitive but short-lived credentials
+- Tokens cannot be used to create new payments or access other tenant resources
+- Tokens expire when the associated payment expires (15 minutes by default)
+- Failed or tampered tokens result in HTTP 401 Unauthorized responses
+
 ## Retrieving a Payment
 
 **Endpoint**: `GET /payments/:paymentId`
 
-**Headers**:
+**Authentication**: Accepts either tenant JWT or checkout token
+
+**Headers (Tenant JWT)**:
 ```
-Authorization: Bearer <jwt-token>
+Authorization: Bearer <tenant-jwt-token>
+```
+
+**Query Parameters (Checkout Token)**:
+```
+?token=<checkout-token>
 ```
 
 **Response**:
@@ -117,7 +157,6 @@ Authorization: Bearer <jwt-token>
   "status": "SUCCEEDED",
   "provider": "simplepay",
   "providerReference": "SIMPLEPAY-REF-123",
-  "checkoutUrl": "https://sandbox.simplepay.hu/payment/...",
   "metadata": {
     "orderId": "order-456"
   },
@@ -144,7 +183,7 @@ Authorization: Bearer <jwt-token>
 }
 ```
 
-Use this endpoint to check payment status after webhook notifications or when a user returns to your application.
+Use this endpoint to check payment status after webhook notifications or when a user returns to your application. Note that the `checkoutToken` field is only present in the payment creation response, not in subsequent retrievals.
 
 ## Listing Payments
 
@@ -211,9 +250,10 @@ Idempotency-Key: <unique-cancellation-key>
 
 ```javascript
 class PaymentService {
-  constructor(authService, apiBaseUrl) {
+  constructor(authService, apiBaseUrl, billingUiUrl) {
     this.authService = authService;
     this.apiBaseUrl = apiBaseUrl;
+    this.billingUiUrl = billingUiUrl; // e.g., "https://billing.yourdomain.com"
   }
 
   async createPayment(userId, amount, currency, metadata) {
@@ -244,6 +284,20 @@ class PaymentService {
     return await response.json();
   }
 
+  async initiateCheckout(userId, amount, currency, metadata) {
+    // Create payment and get checkout token
+    const payment = await this.createPayment(userId, amount, currency, metadata);
+
+    // Build checkout URL with token
+    const checkoutUrl = `${this.billingUiUrl}/payment/${payment.id}?token=${payment.checkoutToken}`;
+
+    return {
+      paymentId: payment.id,
+      checkoutUrl,
+      expiresAt: payment.expiresAt
+    };
+  }
+
   async getPayment(paymentId) {
     const response = await this.authService.makeAuthenticatedRequest(
       `${this.apiBaseUrl}/payments/${paymentId}`
@@ -256,6 +310,37 @@ class PaymentService {
     return await response.json();
   }
 }
+
+// Usage example
+const paymentService = new PaymentService(
+  authService,
+  'https://api.billing.yourdomain.com',
+  'https://billing.yourdomain.com'
+);
+
+// Backend endpoint to initiate checkout
+app.post('/api/checkout', authenticateUser, async (req, res) => {
+  const { amount, currency, metadata } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const checkout = await paymentService.initiateCheckout(
+      userId,
+      amount,
+      currency,
+      metadata
+    );
+
+    // Return checkout URL to frontend for redirect
+    res.json({
+      checkoutUrl: checkout.checkoutUrl,
+      paymentId: checkout.paymentId,
+      expiresAt: checkout.expiresAt
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create payment' });
+  }
+});
 ```
 
 ## Next Steps

@@ -11,6 +11,8 @@ This guide walks you through integrating the centralized billing and payment pla
 The billing platform is a multi-tenant service that centralizes payment operations for all product applications. By integrating with this platform, your application benefits from:
 
 - Secure payment processing without handling sensitive card data
+- Hosted payment page with professional UI
+- Checkout tokens for secure frontend integration
 - Built-in support for multiple payment providers
 - Automatic retry logic and failure handling
 - Complete audit trails and compliance logging
@@ -25,6 +27,8 @@ Your application acts as a tenant of the billing platform. All payment operation
 
 **No Direct Provider Access**: Your application never communicates with payment providers directly. All provider integration, credential management, and API calls are handled by the platform.
 
+**Hosted Payment Experience**: The platform provides a secure, branded checkout page for your users. Use checkout tokens to redirect users without exposing tenant credentials to the frontend.
+
 **Webhook-Driven Confirmation**: Payment success is confirmed through webhooks, not frontend redirects. While users are redirected after payment attempts, the authoritative payment status comes from provider webhooks processed by the platform.
 
 **Stateless Frontend**: Your frontend should not maintain payment state. Always query the platform API to retrieve current payment status.
@@ -33,10 +37,10 @@ Your application acts as a tenant of the billing platform. All payment operation
 
 1. **Registration**: Obtain tenant credentials from the platform administrator
 2. **Authentication**: Authenticate using your tenant credentials to receive a JWT token
-3. **Create Payments**: Generate payment intents for user checkout sessions
-4. **Redirect Users**: Direct users to the payment provider's checkout page
+3. **Create Payments**: Generate payment intents and receive checkout tokens
+4. **Redirect Users**: Direct users to the platform's hosted payment page
 5. **Receive Webhooks**: Handle webhook notifications for payment status updates
-6. **Query Status**: Poll or retrieve final payment status from the platform
+6. **Query Status**: Retrieve final payment status when users return to your application
 
 ## Prerequisites
 
