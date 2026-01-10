@@ -3,6 +3,9 @@ title: Stats
 ---
 # Stats Komponens
 
+> [!WARNING]  
+> Ezt a komponenst már nem használja az oldal, így nem is frissül az oldalnak megfelelően, a statisztikai jelentést már egy teljesen erre készült oldalon lehet megnézni
+
 A `Stats` komponens egy átfogó, adminisztrációs célú irányítópultot jelenít meg, amely különböző statisztikai adatokat és rendszerkonfigurációs állapotokat foglal össze.
 
 ## Működés

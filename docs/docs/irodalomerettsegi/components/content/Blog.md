@@ -3,6 +3,9 @@ title: Blog
 ---
 # BlogPost Komponens
 
+> [!WARNING]  
+> Ezt a komponenst már nem használja az oldal, így nem is frissül az oldalnak megfelelően, a blog teljesen kivezetésre került az oldalról
+
 A `BlogPost` egy egyszerű komponens, amely egyetlen blogbejegyzést jelenít meg egy kártya (`Card`) formátumban.
 
 ## Működés

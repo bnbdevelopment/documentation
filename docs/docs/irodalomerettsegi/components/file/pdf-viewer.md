@@ -3,6 +3,9 @@ title: pdf-viewer
 ---
 # ToggleableIframe Komponens (PDF Megjelenítő)
 
+> [!WARNING]  
+> Ezt a komponenst már nem használja az oldal, így nem is frissül az oldalnak megfelelően, az komponens az esszé feladatokhoz készült
+
 A `ToggleableIframe` komponens egy PDF fájl beágyazott megjelenítésére szolgál egy `iframe` segítségével, lehetőséget biztosítva a normál és teljes képernyős mód közötti váltásra.
 
 ## Működés
