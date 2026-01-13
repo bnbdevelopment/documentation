@@ -59,4 +59,5 @@ Follow the integration guide in order:
 2. [Creating Payments](./creating-payments.md) - Initiating payment intents
 3. [Handling Redirects](./handling-redirects.md) - Frontend checkout flow
 4. [Webhooks](./webhooks.md) - Receiving payment status updates
-5. [Best Practices](./best-practices.md) - Security and reliability guidelines
+5. [Refunds](./refunds.md) - Processing refunds for completed payments
+6. [Best Practices](./best-practices.md) - Security and reliability guidelines

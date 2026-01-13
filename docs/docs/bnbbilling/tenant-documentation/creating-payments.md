@@ -15,7 +15,10 @@ A payment intent represents a single payment attempt. Each intent progresses thr
 3. **SUCCEEDED**: Payment confirmed by provider webhook
 4. **FAILED**: Payment declined or failed
 5. **EXPIRED**: Payment intent expired before completion (default: 15 minutes)
-6. **REFUNDED**: Payment was refunded (optional final state)
+6. **CANCELLED**: Payment cancelled before completion
+7. **REFUNDED**: Payment was successfully refunded (only accessible from SUCCEEDED state)
+
+Only payments in the SUCCEEDED state can be refunded. See the [Refunds](./refunds.md) page for details on processing refunds.
 
 ## Creating a Payment Intent
 
@@ -345,4 +348,7 @@ app.post('/api/checkout', authenticateUser, async (req, res) => {
 
 ## Next Steps
 
-After creating a payment intent, proceed to [handling redirects](./handling-redirects.md) to complete the checkout flow.
+After creating a payment intent, proceed to:
+
+- [Handling Redirects](./handling-redirects.md) - Complete the checkout flow
+- [Refunds](./refunds.md) - Learn how to process refunds for completed payments
