@@ -12,7 +12,7 @@ Poszt létrehozása, a felhasználónak be kell jelentkezve lennie.
 
 A request body formátuma `multipart/form-data` kell, hogy legyen. A kérés a következő mezőket tartalmazza:
 
-- `file`: a feltöltésre való fájl/fájlok.
+- `files`: a feltöltésre való fájl/fájlok.
 - `data`: a vélemény contentje, amelynek a következő sémát kell felvennie:
 
 ```json
