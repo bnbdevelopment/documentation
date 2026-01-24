@@ -10,7 +10,10 @@ sidebar_label: 'Kvíz lekérése'
 ### Request
 `GET /api/v1/quiz`
 
-## Response
+### Query paraméterek
+- `topic` (opcionális): A kívánt témakör
+
+### Response
 A válasz tartalmazza a kérdéseket a `questions` tömmben, illetve az ellenőrzéshez szükséges kulcsot a `solutionId` mezőben.
 
 ```json

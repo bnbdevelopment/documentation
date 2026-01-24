@@ -5,9 +5,16 @@ sidebar_label: 'Admin kvíz kezelés'
 
 # Adminisztrátorok számára
 
+## Összes kvíz lekérése
+### Request
+`GET /api/v1/quiz/all`
+
+### Response
+Válaszban megkapja az összes kvíz kérdés dokumentumát tömb formájában.
+
 ## Specifikus kvíz lekérése
 ### Request
-`GET /api/v1/quiz?id=678aca53fbaf3a6748425923`
+`GET /api/v1/quiz/all?id=678aca53fbaf3a6748425923`
 
 ### Response
 Válaszban megkapja az egész kérdés dokumentumát.
