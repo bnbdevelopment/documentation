@@ -20,6 +20,10 @@ A payment intent represents a single payment attempt. Each intent progresses thr
 
 Only payments in the SUCCEEDED state can be refunded. See the [Refunds](./refunds.md) page for details on processing refunds.
 
+:::note Sandbox Mode
+If your tenant is registered in **sandbox mode**, all payments use a simulated provider instead of real payment processing. This allows you to test the complete flow without actual transactions. See [Sandbox Mode](./sandbox-mode.md) for details.
+:::
+
 ## Creating a Payment Intent
 
 **Endpoint**: `POST /payments`
@@ -64,9 +68,14 @@ Content-Type: application/json
   "createdAt": "2025-01-03T10:00:00.000Z",
   "updatedAt": "2025-01-03T10:00:00.000Z",
   "expiresAt": "2025-01-03T10:15:00.000Z",
-  "checkoutToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "checkoutToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "sandbox": false
 }
 ```
+
+:::info Sandbox Field
+The `sandbox` field indicates whether this payment uses simulated processing (`true`) or real payment processing (`false`). For sandbox tenants, this field is always `true` and the `provider` field will be `"sandbox"`.
+:::
 
 ### Request Parameters
 

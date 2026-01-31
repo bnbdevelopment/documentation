@@ -61,3 +61,4 @@ Follow the integration guide in order:
 4. [Webhooks](./webhooks.md) - Receiving payment status updates
 5. [Refunds](./refunds.md) - Processing refunds for completed payments
 6. [Best Practices](./best-practices.md) - Security and reliability guidelines
+7. [Sandbox Mode](./sandbox-mode.md) - Test without real transactions (recommended for development)

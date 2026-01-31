@@ -18,6 +18,11 @@ Provide the following information for tenant registration:
 - **Contact Email**: Administrative contact for billing-related communications
 - **Webhook URL**: HTTPS endpoint where payment status webhooks will be delivered
 - **Environment**: Production or staging
+- **Sandbox Mode**: Whether this tenant should use simulated payments (see [Sandbox Mode](./sandbox-mode.md))
+
+:::tip Development and Testing
+For development and testing, request a **sandbox tenant**. Sandbox mode allows you to test the complete payment flow without processing real transactions. See the [Sandbox Mode](./sandbox-mode.md) guide for details.
+:::
 
 ### Receiving Credentials
 
