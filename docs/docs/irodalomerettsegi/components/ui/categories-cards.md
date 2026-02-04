@@ -2,7 +2,6 @@
 title: categories-cards
 ---
 # Categories Komponens
-...
 
 **Megjegyzés:** A komponens neve el van írva, a helyes angol szó a `Category` lenne.
 

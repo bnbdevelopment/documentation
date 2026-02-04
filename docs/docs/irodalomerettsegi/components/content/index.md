@@ -2,4 +2,13 @@
 title: Content Components
 ---
 
-This section contains the documentation for the content components.
+Ez a szekció a tartalom komponensek dokumentációit tartalmazza.
+
+## Komponensek
+
+- `Blog` - Blog bejegyzés megjelenítés.
+- `Comment` - Hozzászólás megjelenítés.
+
+## Típusok
+
+- `Types` - Tartalom típusok és propok.

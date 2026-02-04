@@ -2,8 +2,6 @@
 title: TitleFromId
 ---
 # TitleFromId Komponens
-...
-
 
 
 A `TitleFromId` komponens egy specifikus feladatot lát el: egy `id` alapján lekérdez egy központi témakör listát, és kiírja a megfelelő témakör nevét. Ideális olyan oldalakon, ahol a cím dinamikusan, az URL-ben kapott azonosító alapján dől el.

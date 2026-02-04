@@ -2,7 +2,6 @@
 title: Login
 ---
 # Login Komponens
-...
 
 Ez a komponens a `web/components/Login/login.tsx` fájlban található, és belsőleg `Header` néven van exportálva. Jelenlegi formájában egy rendkívül minimális bejelentkezési linket biztosít, de a forráskódban található kommentált részek alapján korábban egy jóval komplexebb fejléc komponens volt.
 

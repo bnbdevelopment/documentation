@@ -2,8 +2,6 @@
 title: Streak
 ---
 # Streak Komponens
-...
-
 A `Streak` komponens egy felhasználó aktuális napi aktivitási sorozatának (`streak`) számát jeleníti meg egy stilizált tűz ikonnal. Célja a felhasználók motiválása és a rendszeres használat ösztönzése.
 
 ## Működés

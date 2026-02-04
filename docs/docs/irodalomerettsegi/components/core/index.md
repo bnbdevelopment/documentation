@@ -2,4 +2,10 @@
 title: Core Components
 ---
 
-This section contains the documentation for the core components.
+Ez a szekció a core komponensek dokumentációit tartalmazza.
+
+## Komponensek
+
+- `Cookie` - Süti hozzájárulás kezelés.
+- `StatCookie` - Statisztikai süti kezelés.
+- `MarkdownRenderer` - Markdown tartalom megjelenítés.

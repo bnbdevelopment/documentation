@@ -2,7 +2,6 @@
 title: Task-Header
 ---
 # Task-Header Komponens
-...
 
 A `TaskHeader` komponens egy feladat vagy feladatsorozat fejlécének megjelenítésére szolgál. Célja, hogy egységes és informatív bevezetőt biztosítson a felhasználóknak az adott feladathoz.
 

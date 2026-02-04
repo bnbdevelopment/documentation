@@ -2,7 +2,6 @@
 title: FlashcardCounter
 ---
 # FlashcardCounter Komponens
-...
 
 A `Counter` komponens a szókártya tanulási folyamat aktuális állapotát jeleníti meg, összefoglalva az áttekintett, ismert és ismeretlen kártyák számát.
 

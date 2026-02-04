@@ -2,7 +2,6 @@
 title: Card
 ---
 # Card Komponens
-...
 
 A `Card` egy újrahasználható komponens, amely egy kártya-szerű felületi elemet jelenít meg, címmel, leírással és egy ikonnal.
 

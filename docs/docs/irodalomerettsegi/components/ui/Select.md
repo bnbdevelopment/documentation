@@ -2,7 +2,6 @@
 title: Select
 ---
 # Select Komponens
-...
 
 A `Select` komponens egy testreszabható, interaktív választóelemet biztosít, amely vizuálisan emlékeztet egy kártyára vagy listaelemre. Lehetővé teszi a felhasználó számára, hogy egy opciót kiválasszon vagy deszelektáljon, és ehhez vizuális visszajelzést ad.
 

@@ -2,4 +2,15 @@
 title: File Components
 ---
 
-This section contains the documentation for the file components.
+Ez a szekció a fájlkezelő komponensek dokumentációit tartalmazza.
+
+## Komponensek
+
+- `FileUpload` - Fájl feltöltés.
+- `DisplayFile` - Fájl megjelenítés.
+- `File` - Fájl kártya elem.
+- `pdf-viewer` - PDF előnézet.
+
+## Típusok
+
+- `Types` - Fájlkezeléshez tartozó prop és adat típusok.
