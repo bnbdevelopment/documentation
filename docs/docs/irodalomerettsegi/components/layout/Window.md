@@ -21,6 +21,17 @@ A `Window.component.tsx` fájlban `ModalWindow` néven definiált, de jellemzőe
 | `open` | `boolean` | Igen | Meghatározza, hogy az ablak látható-e (`true`) vagy rejtett (`false`). |
 | `closeFunction` | `Function` | Igen | Callback függvény, amely akkor hívódik meg, amikor a felhasználó a bezárás gombra kattint. |
 
+## `WindowHeader` (belső komponens)
+
+A `WindowHeader.component.tsx` a `Window` komponens fejlécéért felel. Mac-szerű fejlécet jelenít meg egy bezáró gombbal és a címmel.
+
+### Propok
+
+| Név | Típus | Kötelező | Leírás |
+| --- | --- | --- | --- |
+| `title?` | `string` | Nem | A fejlécben megjelenő cím. |
+| `closeFunction` | `Function` | Igen | A bezárás gomb eseménykezelője. |
+
 ## Használati példa
 
 Az alábbi példa bemutatja, hogyan lehet egy `Window` komponenst használni egy egyszerű beállítási ablak létrehozására.
@@ -63,3 +74,8 @@ export default function SettingsPage() {
 }
 ```
 A `Window` komponens egy újrahasználható alap, amelyre más, specifikusabb modális ablakok épülhetnek, mint például a `FeedbackWindow` vagy a `PoemWindow`.
+
+## Alkalmazási példa (az alkalmazásban)
+
+- A tanulási visszajelzés és a versnézet modáljai a `Window` komponenst használják: `web/components/FeedbackWindow/FeedbackWindow.component.tsx`, `web/components/PoemShow/PoemWindow.component.tsx`.
+- A szókártya szűrő beállításai modalban jelennek meg a `web/app/szokartyak/page.tsx` oldalon.
